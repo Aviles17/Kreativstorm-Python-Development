@@ -1,0 +1,5 @@
+#Ignore application cache
+__pycache__/
+
+#Ignore Virtual Environment
+Hangmanenv/

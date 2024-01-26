@@ -70,7 +70,6 @@ def get_random_file_word(f_path: str):
             word = random.choice(words).strip()
             return word
     else:
-        print("File does not exist.\n")
         raise FileNotFoundError
     
 #Create game function
@@ -84,7 +83,7 @@ def hangman_game(word: str):
         print(f"Word: {word_completion}")
         guess = input("Guess a letter or word: ").lower()
         print("\n")
-        if len(list(guess)) > 1: #Check if the guess is a word
+        if len(list(guess)) == 1: #Check if the guess is a word
             word_completion = check_letter(guess, word, word_completion) #Check if the letter is in the word and update the word_completion
             used_letters.append(guess) #Update the used letters array
             if "_" not in word_completion: #Check if the word is completed
@@ -100,8 +99,13 @@ def hangman_game(word: str):
                 break
             
     clear_console()
-    print(f"The word was {word} !")
-    print("YOU LOSE :(")
+    if "_" not in word_completion: #Check if the word is completed
+        clear_console()
+        print(f"You guessed the word {word} !")
+        print("YOU WIN!")
+    else:
+        print(f"The word was {word} !")
+        print("YOU LOSE :(")
         
 
 #Create function to check if letter is in word
@@ -128,10 +132,12 @@ if __name__ == "__main__":
             hangman_game(word)
         elif option == 2:
             input_file_path = input("Enter the path of the file: ")
-            word = get_random_file_word(input_file_path)
-            #Add exception for path not found
-            clear_console()
-            hangman_game(word)
+            try:
+                word = get_random_file_word(input_file_path)
+                clear_console()
+                hangman_game(word)
+            except FileNotFoundError:
+                print(f"The selected file {input_file_path} doesn't exist. Please try again.\n")
         elif option == 3:
             print("Thanks for playing. Goodbye!\n")
         else:

@@ -1,0 +1,4 @@
+#Ignore Virtual Environments
+.venv/
+#Ignore real credential files
+credentials.py

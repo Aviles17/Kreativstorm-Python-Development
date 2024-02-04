@@ -2,3 +2,7 @@
 .venv/
 #Ignore real credential files
 credentials.py
+#Ignore pycache
+__pycache__/
+#Ignorar mock email data
+mock_mails/mail_1.json

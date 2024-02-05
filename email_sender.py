@@ -28,7 +28,6 @@ from credentials import email, password
 import json
 
 
-
 #Create function to send an email
 def send_email(email: dict, origin_email: str, password: str):
     message = MIMEMultipart()
@@ -38,19 +37,17 @@ def send_email(email: dict, origin_email: str, password: str):
     message.attach( MIMEText(email['body']))
     if email['attachments']:
         message = manage_attachments(message, email['attachments'])
-        
-    if message == False:
-        return False
     else:
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
             try:
                 smtp_server.login(origin_email, password)
                 smtp_server.sendmail(message['From'], email['to'], message.as_string())
             except Exception as e:
-                print(f'Error: {e}')
+                print(f'Error sending the email: {e}')
                 return False
             print('Email sent successfully')
         return True
+
 
 #Create function to read email from directory
 def read_files_from_dir(path_dir: str):
@@ -64,11 +61,12 @@ def read_files_from_dir(path_dir: str):
                     print(data)
                     to_send_files.append(data)
             else:
-                raise Exception(f'File {file} is not a file')
+                raise FileNotFoundError(f'File {file} is not a file')
     else:
-        raise Exception(f'Directory {path_dir} does not exist')
+        raise FileExistsError(f'Directory {path_dir} does not exist')
     
     return to_send_files
+
 
 #Create function to manage attachments
 def manage_attachments(message: MIMEMultipart, attachments: list):

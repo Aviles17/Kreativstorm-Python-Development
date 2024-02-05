@@ -4,5 +4,5 @@
 credentials.py
 #Ignore pycache
 __pycache__/
-#Ignorar mock email data
-Resources\mock_mails\mail_1.json
+#Ignore log data
+*.log

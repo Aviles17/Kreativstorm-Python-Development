@@ -20,12 +20,15 @@ Here are the steps you can take to automate this process:
 '''
 import smtplib
 import os
+import json
+import schedule
+import time
+import logging
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 from credentials import email, password
-import json
 
 
 #Create function to send an email
@@ -37,16 +40,15 @@ def send_email(email: dict, origin_email: str, password: str):
     message.attach( MIMEText(email['body']))
     if email['attachments']:
         message = manage_attachments(message, email['attachments'])
-    else:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
-            try:
-                smtp_server.login(origin_email, password)
-                smtp_server.sendmail(message['From'], email['to'], message.as_string())
-            except Exception as e:
-                print(f'Error sending the email: {e}')
-                return False
-            print('Email sent successfully')
-        return True
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+        try:
+            smtp_server.login(origin_email, password)
+            smtp_server.sendmail(message['From'], email['to'], message.as_string())
+        except Exception as e:
+            logging.error(f'Error sending the email: {e}')
+            print(f'Error sending the email: {e}')
+            return False
+    return True
 
 
 #Create function to read email from directory
@@ -58,7 +60,6 @@ def read_files_from_dir(path_dir: str):
             if os.path.isfile(os.path.join(path_dir, file)):
                 with open(os.path.join(path_dir, file), "r") as json_file:
                     data = json.load(json_file)
-                    print(data)
                     to_send_files.append(data)
             else:
                 raise FileNotFoundError(f'File {file} is not a file')
@@ -79,18 +80,32 @@ def manage_attachments(message: MIMEMultipart, attachments: list):
                 part.add_header('Content-Disposition', f'attachment; filename= {os.path.basename(file_path)}')
                 message.attach(part)
             except Exception as e:
-                print(f'Error al adjuntar el archivo {file_path}: {e}')
+                logging.error(f'Error al adjuntar el archivo {file_path}')
                 return False
             
     return message
 
-
-if __name__ == "__main__":
-    PATH = "mock_mails"
+def main_flux(PATH: str):
     emails = read_files_from_dir(PATH)
     for message in emails:
         ret = send_email(message, email, password)
         if ret:
-            print("Message succesfully sent")
+            logging.info("Message succesfully sent")
         else:
-            print("Error sending message")
+            logging.error("Error sending message")
+
+
+
+if __name__ == "__main__":
+    # Configure the logging module
+    logging.basicConfig(filename='email_sender.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+    
+    PATH = "Resources\\mock_mails" # Constant Path to read emails from
+    
+    #Create object to run script daily at 8:00
+    schedule.every().day.at("08:00").do(lambda: main_flux(PATH))
+    
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

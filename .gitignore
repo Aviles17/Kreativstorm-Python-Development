@@ -12,3 +12,6 @@ __pycache__/
 
 #Ignore Virtual Environment
 .venv/
+
+#Ignore API private keys
+Credentials.py

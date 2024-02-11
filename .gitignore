@@ -1,0 +1,14 @@
+#Ignore build project info files
+*.egg-info/
+
+#Ignore pycache
+__pycache__/
+
+#Ignore .pyc files
+*.pyc
+
+#Ignore log files
+*.log
+
+#Ignore Virtual Environment
+.venv/

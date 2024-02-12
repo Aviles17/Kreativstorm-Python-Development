@@ -17,9 +17,9 @@ def get_weather_data(lat: float, lon: float, api_key= API_KEY) -> dict:
             data = response.json()
             return data
         else:
-            raise Exception(f"API call failed with status code {response.status_code}")
+            raise RuntimeError(f"API call failed with status code {response.status_code}")
     else:
-        raise Exception("API key is missing")
+        raise FileNotFoundError("API key is missing")
         
 
 def get_device_location(location: str) -> tuple[str, float, float]:
@@ -32,7 +32,7 @@ def get_device_location(location: str) -> tuple[str, float, float]:
         return (getLoc.address, getLoc.latitude, getLoc.longitude)
     except Exception as e:
         logging.error(f"Error: {e}")
-        return (None, None) #TODO - Add a better error handling (Replace with raise Exception basen on return code)
+        return (None, None)
     
 def get_adress_latlong(lat: float, lon: float) -> str:
     #Get the address of the location using the latitude and longitude
@@ -43,7 +43,7 @@ def get_adress_latlong(lat: float, lon: float) -> str:
         return getLoc.address
     except Exception as e:
         logging.error(f"Error: {e}")
-        return None #TODO - Add a better error handling (Replace with raise Exception basen on return code
+        return None 
     
 def decompose_json_info(data: dict) -> weather:
     #Decompose the JSON data returned by the API call
@@ -73,4 +73,4 @@ def get_icon(icon: str) -> str:
         return f"resources/5{icon[1]}@2x.png"
     else:
         logging.error(f"Icon {icon} not found")
-        raise Exception(f"Icon {icon} not found")
+        raise FileNotFoundError(f"Icon {icon} not found")

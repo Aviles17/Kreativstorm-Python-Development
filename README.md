@@ -1,4 +1,4 @@
-## Weather_app
+# Weather_app
 
 Weather app shows the current weather conditions and forecast for a specific location. Python project that uses OpenWeatherMap and Geocoder's API. Basic GUI build in tkinter and Pillow libraries
 

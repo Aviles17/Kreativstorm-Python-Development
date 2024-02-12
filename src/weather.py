@@ -1,6 +1,6 @@
 class weather:
     #Define object constructor
-    def __init__(self, lat: float, lon: float, description: str, temp_min: float, temp_max:float, feels_like: float, humidity: float, country: str, sunrise: int, sunset: int, timezone: int):
+    def __init__(self, lat: float, lon: float, description: str, temp_min: float, temp_max:float, feels_like: float, humidity: float, country: str, sunrise: int, sunset: int, timezone: int, imageicon: str):
         self.lat = lat
         self.lon = lon
         self.description = description
@@ -12,6 +12,7 @@ class weather:
         self.sunrise = sunrise
         self.sunset = sunset
         self.timezone = timezone
+        self.imagecode = imageicon
     
     #Define object string representation
     def __str__(self):

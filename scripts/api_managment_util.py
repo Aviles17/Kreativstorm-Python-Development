@@ -67,6 +67,10 @@ def get_icon(icon: str) -> str:
         return f"resources/{icon}@2x.png"
     elif os.path.isfile(f"resources/0{icon[1]}@2x.png"):
         return f"resources/0{icon[1]}@2x.png"
+    elif os.path.isfile(f"resources/1{icon[1]}@2x.png"):
+        return f"resources/1{icon[1]}@2x.png"
+    elif os.path.isfile(f"resources/5{icon[1]}@2x.png"):
+        return f"resources/5{icon[1]}@2x.png"
     else:
         logging.error(f"Icon {icon} not found")
         raise Exception(f"Icon {icon} not found")

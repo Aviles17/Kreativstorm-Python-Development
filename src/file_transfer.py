@@ -16,21 +16,33 @@ Here are the steps you can take to automate this process:
 
     You can also set up a log file to keep track of the files that have been transferred and any errors that may have occurred during the transfer process. '''
 from config.credentials import FTP_SERVER, FTP_USER, FTP_PASSWORD, FTP_PORT
+from config.file_repo_config import LOCAL, INTERNAL_NETWORK
 import logging as log
-from scripts.utility_functions import connect_to_ftp_server, list_parent_directories, create_local_dir, manage_files_directory
+from scripts.utility_functions import connect_to_ftp_server, list_directory, create_local_dir, manage_files_directory, move_files
+import schedule
+import time
 
-if __name__ == '__main__':
-    #Configure the log file
-    log.basicConfig(filename='file_transfer.log', level=log.INFO, format= '%(levelname)s - %(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', filemode='w')
+def file_transfer(pth_files_transfer: str):
     # Connect to the FTP server and create the local directory
     connector = connect_to_ftp_server(FTP_SERVER, FTP_USER, FTP_PASSWORD, FTP_PORT)
-    create_local_dir('data\\LOCAL_REPO')
+    create_local_dir(LOCAL)
     # List the parent directory and copy the corresponding files and directories
-    list_parent_directories(connector, '/')
+    list_directory(connector, '/')
     try:
-        comp = manage_files_directory(connector, 'data\\LOCAL_REPO', ['HEADER.html', 'robots.txt', 'about'])
+        manage_files_directory(connector, LOCAL, pth_files_transfer)
+        move_files(LOCAL, INTERNAL_NETWORK)
     except IOError as e:
         log.error(f'Error managing files and directories: {e}')
     except Exception as e:
         log.error(f'An unexpected error has ocurred: {e}')
+    
+
+if __name__ == '__main__':
+    #Configure the log file
+    log.basicConfig(filename='file_transfer.log', level=log.INFO, format= '%(levelname)s - %(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', filemode='w')
+    #Schedule the job to run every day at a specific time (8 AM)
+    schedule.every().day.at("08:00").do(file_transfer("config\\files_to_transfer.json"))
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
     

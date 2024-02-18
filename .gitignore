@@ -12,3 +12,6 @@ credentials.py
 
 #Ignore LOCAL_REPO folder
 LOCAL_REPO/
+
+#Ignore build files
+*.egg-info/

@@ -2,6 +2,7 @@ import os
 import re
 import logging as log
 from ftplib import FTP, error_perm
+import shutil
 
 def connect_to_ftp_server(server: str, user: str, password: str, port: int) -> FTP:
     ftp_conection = FTP(server)
@@ -16,7 +17,7 @@ def connect_to_ftp_server(server: str, user: str, password: str, port: int) -> F
             raise ConnectionError(f'Failed to connect to {server}') 
     
     
-def list_parent_directories(ftp_conection: FTP, remote_dir: str):
+def list_directory(ftp_conection: FTP, remote_dir: str):
     try:
         ftp_conection.cwd(remote_dir)
         files = ftp_conection.retrlines('LIST')
@@ -92,7 +93,7 @@ def create_local_dir(local_dir: str) -> bool:
         log.info(f'Directory {local_dir} created successfully')
         return True
     else:
-        log.error(f'Directory {local_dir} already exists')
+        log.warning(f'Directory {local_dir} already exists')
         return False
 
 
@@ -122,4 +123,16 @@ def manage_files_directory(ftp_conection: FTP, local_dir:str, transfer:list) -> 
             if not ret_code:
                 raise IOError(f'Failed to download file {file}')
     return True
-    
+
+def move_files(local_dir: str, internal_dir: str) -> bool:
+    if local_dir_exists(local_dir):
+        create_local_dir(internal_dir)
+        if local_dir_exists(internal_dir):
+            for file in os.listdir(local_dir):
+                shutil.move(os.path.join(local_dir, file), internal_dir)
+                log.info(f'{file} moved successfully')
+            return True
+        else:
+            raise FileExistsError(f'The directory {internal_dir} does not exist')
+    else:
+        raise FileExistsError(f'The directory {local_dir} does not exist')

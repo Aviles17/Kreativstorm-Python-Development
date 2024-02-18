@@ -3,6 +3,7 @@ import re
 import logging as log
 from ftplib import FTP, error_perm
 import shutil
+import json
 
 def connect_to_ftp_server(server: str, user: str, password: str, port: int) -> FTP:
     ftp_conection = FTP(server)
@@ -96,6 +97,21 @@ def create_local_dir(local_dir: str) -> bool:
         log.warning(f'Directory {local_dir} already exists')
         return False
 
+def read_files_to_transfer(file_path: str) -> list:
+    try: 
+        with open(file_path, 'r') as file: 
+            data = json.load(file).get('file_paths', [])
+            log.info(f'File {file_path} read successfully. Files to transfer: {data}')
+            return data 
+    except FileNotFoundError as e: 
+        log.error(f'File {file_path} not found. Error {e}') 
+        return [] 
+    except json.JSONDecodeError: 
+        log.error(f'Failed to decode JSON file {file_path}. Error: {e}') 
+        return []
+    except Exception as e:
+        log.error(f'An unexpected error has ocurred. Error: {e}')
+        return []
 
 def local_dir_exists(local_dir: str) -> bool:
     return os.path.isdir(local_dir)

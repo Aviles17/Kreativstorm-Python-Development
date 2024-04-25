@@ -1,0 +1,6 @@
+{
+    "to": ["email_1@gmail.com", "email_2@gmail.com"],
+    "subject": "Test de envio de email",
+    "body": "Testeo de envio de email por SSL con anexo",
+    "attachments": ["Resources\\mock_attachments\\Lorem_Ipsum_1.pdf"]
+}

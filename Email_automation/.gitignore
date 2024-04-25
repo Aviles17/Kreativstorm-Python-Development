@@ -1,0 +1,8 @@
+#Ignore Virtual Environments
+.venv/
+#Ignore real credential files
+credentials.py
+#Ignore pycache
+__pycache__/
+#Ignore log data
+*.log

@@ -1,0 +1,17 @@
+#Ignore pycache
+__pycache__/
+
+#Ignore log files
+*.log
+
+#Ignore Virtual Environment
+.venv/
+
+#Ignore private credentials
+credentials.py
+
+#Ignore LOCAL_REPO folder
+LOCAL_REPO/
+
+#Ignore build files
+*.egg-info/

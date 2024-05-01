@@ -26,6 +26,7 @@ import requests
 import random
 import os
 import sys
+import time
 
 #Create CMD Menu
 def menu():
@@ -74,7 +75,7 @@ def get_random_file_word(f_path: str):
     
 #Create game function
 def hangman_game(word: str):
-    print(word)
+    win_comp = False
     used_letters = []
     word_completion = "_" * len(word)
     for i in range(0, 6):
@@ -96,14 +97,14 @@ def hangman_game(word: str):
                 clear_console()
                 print(f"You guessed the word {word} !")
                 print("YOU WIN!")
+                win_comp = True
                 break
             
-    clear_console()
-    if "_" not in word_completion: #Check if the word is completed
+    if "_" not in word_completion and not win_comp: #Check if the word is completed
         clear_console()
         print(f"You guessed the word {word} !")
         print("YOU WIN!")
-    else:
+    elif not win_comp:
         print(f"The word was {word} !")
         print("YOU LOSE :(")
         
@@ -130,12 +131,16 @@ if __name__ == "__main__":
             word = get_random_api_word(input_lenght_word)
             clear_console()
             hangman_game(word)
+            time.sleep(10) #Wait 10 seconds before clearing the console
+            clear_console()
         elif option == 2:
             input_file_path = input("Enter the path of the file: ")
             try:
                 word = get_random_file_word(input_file_path)
                 clear_console()
                 hangman_game(word)
+                time.sleep(10) #Wait 10 seconds before clearing the console
+                clear_console()
             except FileNotFoundError:
                 print(f"The selected file {input_file_path} doesn't exist. Please try again.\n")
         elif option == 3:

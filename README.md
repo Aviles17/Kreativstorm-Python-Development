@@ -17,7 +17,19 @@ This project is focused on the implementation of a Hangman Game as the title sug
 <p align="center">
   <img src="https://github.com/Aviles17/Kreativstorm-Python-Development/assets/110882455/d165a4d9-6c2b-493c-9917-941a3acb0e43" alt="Hangman game initial screen" width="400" />
 </p>
+
 ### Email Automation
+Email automation project is inspired in a real world problem faced by the Kreativstorm team, where they needed sends daily reports to clients via email.The main objective is to create a python script that automate the process.
+
+For this specific project we used **SMTP protocol** and a **gmail recipient**. The project includes:
+
+- Usage of smtplib python library to connect to the email server and send the emails
+- Compose email by a configuration *.json* file
+- Usage of *os* library to acces the reports or files required for the email
+- Usage of *schedule* library to run daily at a specific time
+
+The following features and the overall configuration of the project is shown in this diagram:
+![image](https://github.com/Aviles17/Kreativstorm-Python-Development/assets/110882455/9e77d728-88d8-4e42-92d5-a7369263163e)
 
 ### Automate File Transfer
 

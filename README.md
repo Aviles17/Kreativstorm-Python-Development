@@ -32,9 +32,36 @@ The following features and the overall configuration of the project is shown in 
 ![image](https://github.com/Aviles17/Kreativstorm-Python-Development/assets/110882455/9e77d728-88d8-4e42-92d5-a7369263163e)
 
 ### Automate File Transfer
+This project follows the same principal as the one before it, a real world situation for the Kreativstorm team. Now the problem resambles in the daily data files from external partners that they recieve. These files need to be processed and analyzed, but first, they need to be transferred to the **company's internal network**. The main objective is to create a routine that automates this process, te solution includes:
+
+- Usage of an external FTP server (Provided by https://ftp.debian.org/debian/)
+
+- Usage of *shutil* library to move files from the local repository to the internal network of the company
+
+- Usage of *schedule*  to run daily at a specific time
+
+- Usage of log file to keep track of the files that have been transferred and any errors that may have occurred during the transfer process.
+
+The following diagram shows the general flow of the solution:
+<p align="center">
+   <img src="https://github.com/Aviles17/Kreativstorm-Python-Development/assets/110882455/84b2d1bf-f186-4d4f-910b-9e1b90ad87f7" alt="Proyect Diagram" width="400" />
+</p>
 
 ### Weather App
-## Authors
+Lastly, Weather App is a desktop application with the future of becoming a web of mobile app. This project focuses on the development of a concept proof for an application that retrives the weather at any given time, location or coordanate.
+
+- The application uses *tkinter* library to develop a quick and minimalist GUI for the user to interact with
+
+- It relies on the OpenWeatherMap weather service API version 2.5 to retrieve the current information about the weather in an specific location.
+
+- uses *Pillow* library to display icons to make the GUI more complex and enjoyable to the user
+
+The following is a snapshot of what the app does:
+![image](https://github.com/Aviles17/Kreativstorm-Python-Development/assets/110882455/2bff75de-fd3d-49b1-8faf-9ead4bb021a1)
+![image](https://github.com/Aviles17/Kreativstorm-Python-Development/assets/110882455/7d777389-da51-43e7-8d41-81b1e0590f04)
+
+
+## Author
 
 
 - [Santiago Avilés Tibocha](https://github.com/Aviles17)
